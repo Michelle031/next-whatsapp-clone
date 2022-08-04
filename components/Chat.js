@@ -7,6 +7,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import styled from 'styled-components';
 import { auth, db } from '../firebase';
 import getRecipientEmail from '../utils/getRecipientEmail';
+import Link from "next/link";
 
 function Chat({id, users}) {
     const [ user ] = useAuthState(auth);
@@ -15,18 +16,18 @@ function Chat({id, users}) {
     const recipientEmail = getRecipientEmail(users, user);
     const recipient = recipientSnapshot?.docs?.[0]?.data();
 
-    const enterChat = () => {
-        router.push(`/chat/${id}`);
-    }
+    
 
 
   return (
-    <Container onClick={enterChat}>
+    <Link href={`/chat/${id}`}>
+      <Container  >
         {recipient ? 
         (<UserAvatar src={recipient?.photoUrl} />) :
          (<UserAvatar>{recipientEmail[0]}</UserAvatar>) }
         <p>{recipientEmail}</p>
-    </Container>
+      </Container>
+    </Link>
   )
 }
 
